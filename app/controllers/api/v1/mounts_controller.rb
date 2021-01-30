@@ -1,0 +1,2 @@
+class MountsController < ApplicationController
+end

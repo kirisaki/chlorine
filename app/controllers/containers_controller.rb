@@ -1,2 +1,0 @@
-class ContainersController < ApplicationController
-end

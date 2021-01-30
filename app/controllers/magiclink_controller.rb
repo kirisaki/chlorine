@@ -1,0 +1,2 @@
+class MagiclinkController < ApplicationController
+end

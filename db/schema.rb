@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_30_141431) do
+ActiveRecord::Schema.define(version: 2021_01_30_171313) do
 
   create_table "containers", force: :cascade do |t|
     t.integer "image_id", null: false
@@ -43,6 +43,16 @@ ActiveRecord::Schema.define(version: 2021_01_30_141431) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "mounts", force: :cascade do |t|
+    t.text "path"
+    t.integer "volume_id", null: false
+    t.integer "container_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["container_id"], name: "index_mounts_on_container_id"
+    t.index ["volume_id"], name: "index_mounts_on_volume_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "name"
     t.text "mail"
@@ -52,7 +62,19 @@ ActiveRecord::Schema.define(version: 2021_01_30_141431) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "volumes", force: :cascade do |t|
+    t.string "name"
+    t.string "docker_name"
+    t.integer "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_volumes_on_user_id"
+  end
+
   add_foreign_key "containers", "images"
   add_foreign_key "envs", "containers"
   add_foreign_key "images", "users"
+  add_foreign_key "mounts", "containers"
+  add_foreign_key "mounts", "volumes"
+  add_foreign_key "volumes", "users"
 end

@@ -1,0 +1,2 @@
+class VolumeController < ApplicationController
+end

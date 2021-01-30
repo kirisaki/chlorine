@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  path: MyText
+  volume: one
+  container: one
+
+two:
+  path: MyText
+  volume: two
+  container: two

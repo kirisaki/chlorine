@@ -1,0 +1,2 @@
+class Magicklink < ApplicationRecord
+end

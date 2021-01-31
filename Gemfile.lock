@@ -60,6 +60,9 @@ GEM
       minitest (>= 5.1)
       tzinfo (~> 2.0)
       zeitwerk (~> 2.3)
+    argon2 (2.0.3)
+      ffi (~> 1.14)
+      ffi-compiler (~> 1.0)
     bootsnap (1.6.0)
       msgpack (~> 1.0)
     builder (3.2.4)
@@ -68,6 +71,9 @@ GEM
     crass (1.0.6)
     erubi (1.10.0)
     ffi (1.14.2)
+    ffi-compiler (1.0.1)
+      ffi (>= 1.0.0)
+      rake
     globalid (0.4.2)
       activesupport (>= 4.2.0)
     i18n (1.8.7)
@@ -147,8 +153,10 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
+  argon2 (~> 2.0)
   bootsnap (>= 1.4.4)
   byebug
+  ffi (~> 1.14)
   listen (~> 3.3)
   mysql2 (~> 0.5.3)
   puma (~> 5.0)

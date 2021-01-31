@@ -39,3 +39,7 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem "mysql2", "~> 0.5.3"
+
+gem "argon2", "~> 2.0"
+
+gem "ffi", "~> 1.14"

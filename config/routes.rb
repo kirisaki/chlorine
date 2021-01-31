@@ -10,4 +10,6 @@ Rails.application.routes.draw do
     end
   end
   post '/magicklink', to: 'magicklink#create'
+  post '/login', to: 'login#create'
+  post '/logout', to: 'logout#create'
 end

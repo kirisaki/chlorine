@@ -1,5 +1,12 @@
 class CreateTables < ActiveRecord::Migration[6.1]
   def change
+    drop_table :mounts, force: true, if_exists: true
+    drop_table :volumes, force: true, if_exists: true
+    drop_table :envs, force: true, if_exists: true
+    drop_table :containers, force: true, if_exists: true
+    drop_table :images, force: true, if_exists: true
+    drop_table :magicklinks, force: true, if_exists: true
+    drop_table :users, force: true, if_exists: true
     create_table :users, force: true do |t|
       t.string :name
       t.text :mail

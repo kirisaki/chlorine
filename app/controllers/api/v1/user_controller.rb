@@ -1,6 +1,6 @@
 module Api
   module V1
-    class UserController < ApplicationController
+    class UserController < ProtectedController
       def index
         render json: { error: 'Not allowed' }, status: :forbidden
       end

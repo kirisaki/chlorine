@@ -1,7 +1,7 @@
 FROM ruby:3.0.0-alpine
 RUN mkdir /app
 WORKDIR /app
-RUN apk update && apk upgrade &&apk add alpine-sdk sqlite-dev tzdata 
+RUN apk update && apk upgrade &&apk add alpine-sdk mysql-dev mysql-client tzdata 
 ADD Gemfile /app/Gemfile
 ADD . /app
 RUN bundle install

@@ -10,50 +10,50 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_30_171313) do
+ActiveRecord::Schema.define(version: 2021013100000000) do
 
-  create_table "containers", force: :cascade do |t|
-    t.integer "image_id", null: false
+  create_table "containers", charset: "utf8", force: :cascade do |t|
+    t.bigint "image_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["image_id"], name: "index_containers_on_image_id"
   end
 
-  create_table "envs", force: :cascade do |t|
+  create_table "envs", charset: "utf8", force: :cascade do |t|
     t.text "name"
     t.text "value"
-    t.integer "container_id", null: false
+    t.bigint "container_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["container_id"], name: "index_envs_on_container_id"
   end
 
-  create_table "images", force: :cascade do |t|
+  create_table "images", charset: "utf8", force: :cascade do |t|
     t.text "filename"
-    t.integer "user_id", null: false
+    t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_images_on_user_id"
   end
 
-  create_table "magicklinks", force: :cascade do |t|
+  create_table "magicklinks", charset: "utf8", force: :cascade do |t|
     t.text "mail"
     t.text "token"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "mounts", force: :cascade do |t|
+  create_table "mounts", charset: "utf8", force: :cascade do |t|
     t.text "path"
-    t.integer "volume_id", null: false
-    t.integer "container_id", null: false
+    t.bigint "volume_id", null: false
+    t.bigint "container_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["container_id"], name: "index_mounts_on_container_id"
     t.index ["volume_id"], name: "index_mounts_on_volume_id"
   end
 
-  create_table "users", force: :cascade do |t|
+  create_table "users", charset: "utf8", force: :cascade do |t|
     t.string "name"
     t.text "mail"
     t.text "fingerprint"
@@ -62,10 +62,10 @@ ActiveRecord::Schema.define(version: 2021_01_30_171313) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "volumes", force: :cascade do |t|
+  create_table "volumes", charset: "utf8", force: :cascade do |t|
     t.string "name"
     t.string "docker_name"
-    t.integer "user_id", null: false
+    t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_volumes_on_user_id"

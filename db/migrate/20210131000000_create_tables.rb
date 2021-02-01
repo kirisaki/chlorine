@@ -23,12 +23,14 @@ class CreateTables < ActiveRecord::Migration[6.1]
     end
     create_table :images, force: true do |t|
       t.text :name
+      t.text :id_on_docker
       t.text :filename
       t.references :user, null: false, foreign_key: true
 
       t.timestamps
     end
     create_table :containers, force: true do |t|
+      t.text :id_on_docker
       t.references :image, null: false, foreign_key: true
 
       t.timestamps

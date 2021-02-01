@@ -8,8 +8,8 @@ module Api
           render json: { error: 'Image not found' }
           return
         end
-        info = Docker.info
-        render json: info
+
+        render json: image
       end
 
     end

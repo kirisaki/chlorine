@@ -28,12 +28,19 @@ module Api
         timestamp = Time.new.strftime('%Y%m%d%H%M%S')
         uuid = SecureRandom.uuid
         filename = timestamp << '-' << uuid << '.tar'
+        path = Pathname.new(Settings.dir.image).join(filename)
 
-        new_image = Image.create(name: meta['name'], filename: filename, user_id: current_user.id)
-        File.open Pathname.new(Settings.dir.image).join(filename), 'w+b' do |file|
-          file.write image
+        File.open Pathname.new(Settings.dir.image).join(filename), 'wb' do |file|
+          file.write image.read
         end
+        image_loaded = Docker::Image.import(path, { repo: current_user.name, tag: meta['name'] })
 
+        new_image = Image.create(
+          id_on_docker: image_loaded.id,
+          name: meta['name'],
+          filename: filename,
+          user_id: current_user.id
+        )
         render json: { name: new_image.name, id: new_image.id }
       end
     end

@@ -49,3 +49,5 @@ gem "config", "~> 2.2"
 gem "deep_merge", "~> 1.2"
 
 gem "msgpack", "~> 1.4.2"
+
+gem "docker-api", "~> 2.0"

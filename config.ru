@@ -2,5 +2,6 @@
 
 require_relative "config/environment"
 
+Docker.url = Settings.dir.docker
 run Rails.application
 Rails.application.load_server

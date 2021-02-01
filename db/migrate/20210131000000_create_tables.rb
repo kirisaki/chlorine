@@ -22,6 +22,7 @@ class CreateTables < ActiveRecord::Migration[6.1]
       t.timestamps
     end
     create_table :images, force: true do |t|
+      t.text :name
       t.text :filename
       t.references :user, null: false, foreign_key: true
 

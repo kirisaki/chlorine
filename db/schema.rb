@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021013100000000) do
+ActiveRecord::Schema.define(version: 2021_01_31_000000) do
 
   create_table "containers", charset: "utf8", force: :cascade do |t|
     t.bigint "image_id", null: false
@@ -29,6 +29,7 @@ ActiveRecord::Schema.define(version: 2021013100000000) do
   end
 
   create_table "images", charset: "utf8", force: :cascade do |t|
+    t.text "name"
     t.text "filename"
     t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false

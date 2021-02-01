@@ -1,0 +1,3 @@
+dir:
+  image: /image
+  docker: unix:///var/run/docker.sock

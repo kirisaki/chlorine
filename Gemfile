@@ -43,3 +43,9 @@ gem "mysql2", "~> 0.5.3"
 gem "argon2", "~> 2.0"
 
 gem "ffi", "~> 1.14"
+
+gem "config", "~> 2.2"
+
+gem "deep_merge", "~> 1.2"
+
+gem "msgpack", "~> 1.4.2"

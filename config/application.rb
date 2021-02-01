@@ -16,6 +16,7 @@ require "action_cable/engine"
 require "rails/test_unit/railtie"
 require "argon2"
 require 'securerandom'
+require 'config'
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.

@@ -21,6 +21,14 @@ module Api
         render json: container_entity
       end
 
+      def destroy
+        container_id = params[:id]
+        container = Container.find(container_id)
+        container_docker = Docker::Container.get(container.id_on_docker)
+        container_docker.stop
+        container_docker.delete
+        container.destroy
+      end
     end
   end
 end

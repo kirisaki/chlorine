@@ -30,13 +30,26 @@ module Api
         filename = timestamp << '-' << uuid << '.tar'
         path = Pathname.new(Settings.dir.image).join(filename)
 
-        File.open Pathname.new(Settings.dir.image).join(filename), 'wb' do |file|
+        image_id = nil
+        File.open path, 'wb' do |file|
           file.write image.read
         end
-        image_loaded = Docker::Image.import(path, { repo: current_user.name, tag: meta['name'] })
+        File.open path, 'rb' do |file|
+          tar = Gem::Package::TarReader.new(file)
+          tar.each do |entry|
+            entry.full_name != 'manifest.json' && next
+            json = JSON.parse(entry.read)
+            image_id = json[0]['Config'].chomp('.json')
+          end
+        end
+        unless image_id
+          render json: { error: 'Invalid image' }
+          return
+        end
+        Docker::Image.load(path.to_s)
 
         new_image = Image.create(
-          id_on_docker: image_loaded.id,
+          id_on_docker: image_id,
           name: meta['name'],
           filename: filename,
           user_id: current_user.id

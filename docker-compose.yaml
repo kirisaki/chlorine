@@ -7,11 +7,27 @@ services:
       MYSQL_DATABASE: root
     cap_add:
       - SYS_NICE
+    networks:
+      - sink
 
-  chlorine:
-    build: .
+  proxy:
+    build:
+      context: .
+      dockerfile: Dockerfile.proxy
+    command: caddy run --config /etc/caddy/Caddyfile --adapter caddyfile
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - membrane
+      - pool
+
+  api:
+    build: 
+      context: .
+      dockerfile: Dockerfile.api
     command: bundle exec rails s -p 3000 -b '0.0.0.0'
-    #environment:
+    environment:
     #RAILS_ENV: production
     #RAKE_ENV: production
     volumes:
@@ -20,5 +36,32 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     ports:
       - "3000:3000"
+    networks:
+      - membrane
+      - sink
     depends_on:
       - db
+      - proxy
+
+networks:
+  membrane:
+    name: membrane
+    driver: bridge
+    ipam:
+       driver: default
+       config:
+         - subnet: 172.30.1.0/24
+  sink:
+    name: sink
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.30.2.0/24
+  pool:
+    name: pool
+    driver: bridge
+    ipam:
+       driver: default
+       config:
+         - subnet: 10.0.0.0/8

@@ -1,0 +1,7 @@
+FROM caddy:latest
+
+COPY Caddyfile /etc/caddy/
+
+WORKDIR /srv
+
+CMD ["caddy" "run" "--config" "/etc/caddy/Caddyfile" "--adapter" "caddyfile"]

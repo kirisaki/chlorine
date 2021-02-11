@@ -15,7 +15,7 @@ module Api
           return
         end
 
-        container = Docker::Image.get(image.id_on_docker).run(command)
+        container = Docker::Image.get(image.id_on_docker).run(command, { 'NetworkingConfig' => { 'EndpointsConfig' => { 'pool' => {} } } })
         container_entity = Container.create(id_on_docker: container.id, image_id: image.id)
 
         render json: container_entity

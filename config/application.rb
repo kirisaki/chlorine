@@ -19,6 +19,8 @@ require 'securerandom'
 require 'config'
 require 'docker'
 require 'rubygems/package'
+require 'net/http'
+require 'uri'
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.

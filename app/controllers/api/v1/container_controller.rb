@@ -15,13 +15,23 @@ module Api
           return
         end
 
-        container = Docker::Image.get(image.id_on_docker).run(command, { 'NetworkingConfig' => { 'EndpointsConfig' => { 'pool' => {} } } })
-        container_entity = Container.create(id_on_docker: container.id, image_id: image.id)
+        subdomain = current_user.name.dup << '-' << SecureRandom.alphanumeric(16)
+        host = subdomain.dup << '.' << Settings.host
+
+        container = Docker::Image.get(image.id_on_docker).run(
+          command, { 'NetworkingConfig' => { 'EndpointsConfig' => { 'pool' => {} } } }
+        )
+        container_entity = Container.create(id_on_docker: container.id, image_id: image.id, subdomain: subdomain)
+
         ip = container.json['NetworkSettings']['Networks']['pool']['IPAddress']
         url = URI.parse 'http://proxy:2019/config/apps/'
         http = Net::HTTP.new(url.host, url.port)
-        query = { http: { servers: { 'a' => { listen: [':80'], routes: [{ handle: [{ handler: 'reverse_proxy', upstreams: [{ dial: ip << ':80' }]}], match: [{ host: ['a.proxy']  }] }] } } } }.to_json
-        http.post url.path, query, { 'Content-Type' => 'application/json' }
+        query = { http:
+                  { servers: { host => { listen: [':80'], routes:
+                                        [{ handle: [{ handler: 'reverse_proxy', upstreams:
+                                                      [{ dial: ip << ':80' }] }], match:
+        [{ host: [host] }] }] } } } }.to_json
+        http.put url.path, query, { 'Content-Type' => 'application/json' }
 
         render json: container_entity
       end

@@ -1,3 +1,5 @@
 {
     admin proxy:2019
+    auto_https off
 }
+

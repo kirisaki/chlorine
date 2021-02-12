@@ -56,6 +56,13 @@ module Api
         )
         render json: { name: new_image.name, id: new_image.id }
       end
+
+      def destroy
+        image_id = params[:id]
+        image = Image.find image_id
+        (Pathname.new(Settings.dir.image) / image.filename).delete
+        image.destroy
+      end
     end
   end
 end

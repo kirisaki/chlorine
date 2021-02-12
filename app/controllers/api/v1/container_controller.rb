@@ -1,6 +1,24 @@
 module Api
   module V1
     class ContainerController < ProtectedController
+      def index
+        limit = params[:limit] ? params[:limit].to_i : 10
+        offset = params[:offset] ? params[:offset].to_i : 0
+        containers = Container.where('user_id = ?', current_user.id).order(created_at: :desc).limit(limit).offset(offset)
+        render json: { containers: containers }
+      end
+
+      def show
+        id = params[:id]
+        container = Container.find(id)
+        unless container.user_id == current_user.id
+          render json: { error: 'Forbidden' }, status: :forbidden
+          return
+        end
+
+        render json: container
+      end
+
       def create
         image_id = params[:image_id]
         command = params[:command]
@@ -10,18 +28,19 @@ module Api
           return
         end
 
-        unless image = Image.find(image_id)
-          render json: { error: 'Image not found' }
-          return
-        end
-
+        image = Image.find(image_id)
         subdomain = current_user.name.dup << '-' << SecureRandom.alphanumeric(16)
         host = subdomain.dup << '.' << Settings.host
 
         container = Docker::Image.get(image.id_on_docker).run(
           command, { 'NetworkingConfig' => { 'EndpointsConfig' => { 'pool' => {} } } }
         )
-        container_entity = Container.create(id_on_docker: container.id, image_id: image.id, subdomain: subdomain)
+        container_entity = Container.create(
+          id_on_docker: container.id,
+          image_id: image.id,
+          subdomain: subdomain,
+          user_id: current_user.id
+        )
 
         ip = container.json['NetworkSettings']['Networks']['pool']['IPAddress']
         url = URI.parse('http://proxy:2019/config/apps/http/servers/' << Settings.server << '/routes')

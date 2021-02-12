@@ -2,7 +2,6 @@ class CreateTables < ActiveRecord::Migration[6.1]
   def change
     drop_table :mounts, force: true, if_exists: true
     drop_table :volumes, force: true, if_exists: true
-    drop_table :envs, force: true, if_exists: true
     drop_table :containers, force: true, if_exists: true
     drop_table :images, force: true, if_exists: true
     drop_table :magicklinks, force: true, if_exists: true
@@ -33,13 +32,7 @@ class CreateTables < ActiveRecord::Migration[6.1]
       t.text :id_on_docker
       t.text :subdomain
       t.references :image, null: false, foreign_key: true
-
-      t.timestamps
-    end
-    create_table :envs, force: true do |t|
-      t.text :name
-      t.text :value
-      t.references :container, null: false, foreign_key: true
+      t.references :user, null: false, foreign_key: true
 
       t.timestamps
     end

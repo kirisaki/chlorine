@@ -16,18 +16,11 @@ ActiveRecord::Schema.define(version: 2021_01_31_000000) do
     t.text "id_on_docker"
     t.text "subdomain"
     t.bigint "image_id", null: false
+    t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["image_id"], name: "index_containers_on_image_id"
-  end
-
-  create_table "envs", charset: "utf8", force: :cascade do |t|
-    t.text "name"
-    t.text "value"
-    t.bigint "container_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["container_id"], name: "index_envs_on_container_id"
+    t.index ["user_id"], name: "index_containers_on_user_id"
   end
 
   create_table "images", charset: "utf8", force: :cascade do |t|
@@ -76,7 +69,7 @@ ActiveRecord::Schema.define(version: 2021_01_31_000000) do
   end
 
   add_foreign_key "containers", "images"
-  add_foreign_key "envs", "containers"
+  add_foreign_key "containers", "users"
   add_foreign_key "images", "users"
   add_foreign_key "mounts", "containers"
   add_foreign_key "mounts", "volumes"

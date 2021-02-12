@@ -1,13 +1,21 @@
 module Api
   module V1
     class ImageController < ProtectedController
+      def index
+        limit = params[:limit] ? params[:limit].to_i : 10
+        offset = params[:offset] ? params[:offset].to_i : 0
+        images = Image.where('user_id = ?', current_user.id).order(created_at: :desc).limit(limit).offset(offset)
+        render json: { images: images }
+      end
+
       def show
         id = params[:id]
         image = Image.find(id)
-        unless image
-          rende json: { error: 'Image not found' }
+        unless image.user_id == current_user.id
+          render json: { error: 'Forbidden' }, status: :forbidden
           return
         end
+
         render json: { name: image.name, created_at: image.created_at, updated_at: image.updated_at }
       end
 

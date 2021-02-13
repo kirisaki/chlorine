@@ -9,7 +9,7 @@ class LoginController < ApplicationController
       return
     end
 
-    fingerprint = 'xxx' #Argon2::Password.create(pass)
+    Argon2::Password.create(pass)
     user = User.find_by(name: name, fingerprint: fingerprint)
 
     if user

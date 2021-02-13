@@ -27,9 +27,9 @@ services:
       context: .
       dockerfile: Dockerfile.api
     command: bundle exec rails s -p 3000 -b '0.0.0.0'
-    #environment:
-    #RAILS_ENV: production
-    #RAKE_ENV: production
+    environment:
+      RAILS_ENV: production
+      RAKE_ENV: production
     volumes:
       - .:/app
       - /images

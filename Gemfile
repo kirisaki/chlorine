@@ -38,7 +38,6 @@ end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
-gem "mysql2", "~> 0.5.3"
 
 gem "argon2", "~> 2.0"
 
@@ -51,3 +50,5 @@ gem "deep_merge", "~> 1.2"
 gem "msgpack", "~> 1.4.2"
 
 gem "docker-api", "~> 2.0"
+
+gem "pg", "~> 1.2"

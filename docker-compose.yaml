@@ -1,14 +1,16 @@
 version: '3'
 services:
   db:
-    image: mysql:latest
+    image: postgres:latest
     environment:
-      MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: root
+      POSTGREST_PASSWORD: password
+      POSTGRES_USER: root
+      POSTGRES_INIIT_ARGS: "--encoding=UTF-8"
     cap_add:
       - SYS_NICE
     networks:
       - sink
+    user: root
 
   proxy:
     build:
@@ -27,9 +29,9 @@ services:
       context: .
       dockerfile: Dockerfile.api
     command: bundle exec rails s -p 3000 -b '0.0.0.0'
-    #environment:
-    #RAILS_ENV: production
-    #RAKE_ENV: production
+    environment:
+      RAILS_ENV: production
+      RAKE_ENV: production
     volumes:
       - .:/app
       - /images

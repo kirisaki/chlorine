@@ -2,9 +2,12 @@
 
 require_relative "config/environment"
 
+# prepare docker
 Docker.url = Settings.dir.docker
+
+# prepare Caddy
 url = URI.parse('http://proxy:2019/config/apps')
-http = Net::HTTP.new(url.host, url.port)
+http = Net::HTTP.new url.host, url.port
 query = {
   http: {
     servers: {
@@ -18,7 +21,14 @@ query = {
             { handler: 'reverse_proxy', upstreams: [{ dial: 'api:3000' }] }
           ]
         }]
-      } } } }.to_json
-http.put url.path, query, { 'Content-Type' => 'application/json' }
+      } } } }
+
+if Rails.env == 'production'
+  query[:http][:servers][Settings.server][:tls_connection_policies] = [{}]
+  query[:http][:servers][Settings.server][:listen].append ':443'
+end
+
+http.put url.path, query.to_json, { 'Content-Type' => 'application/json' }
+
 run Rails.application
 Rails.application.load_server

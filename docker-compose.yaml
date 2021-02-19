@@ -3,7 +3,7 @@ services:
   db:
     image: postgres:latest
     environment:
-      POSTGREST_PASSWORD: password
+      POSTGRES_PASSWORD: password
       POSTGRES_USER: root
       POSTGRES_INIIT_ARGS: "--encoding=UTF-8"
     cap_add:
